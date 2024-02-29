@@ -4,6 +4,7 @@ from PyQt5.uic import loadUi
 from calculator import Ui_MainWindow
 import math
 
+
 class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
@@ -12,9 +13,9 @@ class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.stackedWidget.setCurrentWidget(self.main_page)
         self.select.clicked.connect(self.selects)
-        self.shapeindex = -1
+        self.index = -1
         self.color = ''
-        self.back.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.main_page))
+        self.backButton.clicked.connect(self.back)
         self.calculate.clicked.connect(self.calc)
 
         self.radio_buttons = {'circle': (self.ui.circle, 1),
@@ -22,13 +23,17 @@ class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
                               'triangle': (self.ui.triangle, 3),
                               'trap': (self.ui.trapezoid, 4)}
 
+    def back(self):
+        self.stackedWidget.setCurrentWidget(self.main_page)
+        self.index = -1
+
     def selects(self):
         self.select_shape()
         self.get_checked_color()
         self.change_color()
 
     def calc(self):
-        match self.shapeindex:
+        match self.index:
             case 1:
                 self.calculate_circle()
             case 2:
@@ -42,7 +47,7 @@ class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
         for rb in self.radio_buttons.items():
             if rb[1][0].isChecked():
                 self.stackedWidget.setCurrentIndex(rb[1][1])
-                self.shapeindex = rb[1][1]
+                self.index = rb[1][1]
                 break
 
     def get_checked_color(self):
@@ -52,16 +57,16 @@ class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
                 break
 
     def change_color(self):
-        if self.shapeindex == -1 and self.color == self.blue:
+        if self.index == -1 and self.color == self.blue:
             self.shape_group.setStyleSheet("background-color: rgb(98, 160, 234);")
             self.color_group.setStyleSheet("background-color: rgb(98, 160, 234);")
-        elif self.shapeindex == -1 and self.color == self.red:
+        elif self.index == -1 and self.color == self.red:
             self.shape_group.setStyleSheet("background-color: rgb(237, 51, 59);")
             self.color_group.setStyleSheet("background-color: rgb(237, 51, 59);")
-        elif self.shapeindex == -1 and self.color == self.yellow:
+        elif self.index == -1 and self.color == self.yellow:
             self.shape_group.setStyleSheet("background-color: rgb(248, 228, 92);")
             self.color_group.setStyleSheet("background-color: rgb(248, 228, 92);")
-        elif self.shapeindex == -1 and self.color == self.green:
+        elif self.index == -1 and self.color == self.green:
             self.shape_group.setStyleSheet("background-color: rgb(87, 227, 137);")
             self.color_group.setStyleSheet("background-color: rgb(87, 227, 137);")
         elif self.color == self.blue:
@@ -126,6 +131,7 @@ class MainWidget(QtWidgets.QMainWindow, Ui_MainWindow):
             p = a + b + c + d
             self.tr_area.display((a+b)/2*h)
             self.tr_p.display(p)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

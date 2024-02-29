@@ -1,5 +1,5 @@
 This pyqt5-based app is a calculator for 4 possible geometric figures. It opens list of figures and an user should choose one of them.
-Then the page is switched to the chosen figure calculator, where the user should enter parameters to calculate area and perimeter.
+Then the page is switched to the chosen figure calculator, where the user should enter parameters and press calculate button, to get area and perimeter.
 
 You can also choose the color of the boxes on the first page by checking preferred color.
 
